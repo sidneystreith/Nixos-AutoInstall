@@ -46,6 +46,7 @@ A Nix flake is a structured way to define dependencies and configurations. Youâ€
 #### **4. Run the Automated Installation**
 - Use the `disko-install` command to apply the disk layout and install NixOS based on your flake:
   ```bash
+  lsblk # to see available partitions
   nix-env -iA nixos.disko # Install disko if not already present
   disko-install --flake github:CharlesSBL/Nixos-AutoInstall#my-server
   ```
