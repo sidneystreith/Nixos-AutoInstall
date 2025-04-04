@@ -1,13 +1,13 @@
 {
   disko.devices = {
     disk = {
-      sda = {
-        device = "/dev/sda"; # Replace with your disk device
-        type = "gpt";        # Use GPT partition table
+      vda = {  # Use /dev/vda, not /dev/sda
+        device = "/dev/vda";
+        type = "gpt";  # GPT partition table
         partitions = {
           ESP = {
-            size = "500M";
-            type = "EF00";   # EFI system partition
+            size = "500M";  # EFI partition size
+            type = "EF00";  # EFI system partition type
             content = {
               type = "filesystem";
               format = "vfat";
@@ -15,7 +15,7 @@
             };
           };
           root = {
-            size = "100%";   # Use remaining space
+            size = "100%";  # Use remaining space (19.5G)
             content = {
               type = "filesystem";
               format = "ext4";
