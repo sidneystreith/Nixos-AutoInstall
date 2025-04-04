@@ -17,6 +17,11 @@
   # Allow network access during installation
   networking.useDHCP = true;
 
-  environment.systemPackages = with pkgs; [ vim, git, gh, htop ]; # Optional packages
+  environment.systemPackages = with pkgs; [ # Optional packages
+    vim
+    git
+    gh
+    htop 
+  ]; 
   system.stateVersion = "24.11"; # Match your NixOS version
 }
