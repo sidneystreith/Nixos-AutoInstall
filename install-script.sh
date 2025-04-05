@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# lsblk to check disk
+
 # Exit on any error
 set -e
 
