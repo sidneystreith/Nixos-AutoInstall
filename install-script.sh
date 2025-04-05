@@ -12,11 +12,11 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Variables (customize these as needed)
-DISK="/dev/sda"
+DISK="/dev/vda"
 ROOT_LABEL="nixos"
 SWAP_LABEL="swap"
 BOOT_LABEL="boot"
-SWAP_SIZE="8G"
+SWAP_SIZE="16G"
 
 echo "Starting NixOS installation on $DISK..."
 
@@ -24,14 +24,14 @@ echo "Starting NixOS installation on $DISK..."
 echo "Creating partition table..."
 parted $DISK -- mklabel gpt
 parted $DISK -- mkpart root ext4 512MB -${SWAP_SIZE}
-parted $DISK -- mkpart swap linux-swap -${SWAP_SIZE} 100%
+# parted $DISK -- mkpart swap linux-swap -${SWAP_SIZE} 100%
 parted $DISK -- mkpart ESP fat32 1MB 512MB
 parted $DISK -- set 3 esp on
 
 # Formatting
 echo "Formatting partitions..."
 mkfs.ext4 -L $ROOT_LABEL ${DISK}1
-mkswap -L $SWAP_LABEL ${DISK}2
+# mkswap -L $SWAP_LABEL ${DISK}2
 mkfs.fat -F 32 -n $BOOT_LABEL ${DISK}3
 
 # Mounting
@@ -39,7 +39,7 @@ echo "Mounting filesystems..."
 mount /dev/disk/by-label/$ROOT_LABEL /mnt
 mkdir -p /mnt/boot
 mount -o umask=077 /dev/disk/by-label/$BOOT_LABEL /mnt/boot
-swapon /dev/disk/by-label/$SWAP_LABEL
+# swapon /dev/disk/by-label/$SWAP_LABEL
 
 # Generate configuration
 echo "Generating NixOS configuration..."
