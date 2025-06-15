@@ -48,39 +48,65 @@ nixos-generate-config --root /mnt
 # Basic configuration modification
 echo "Configuring basic system settings..."
 cat << EOF > /mnt/etc/nixos/configuration.nix
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+# Use the grub boot loader.
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.efiInstallAsRemovable = true;
+  boot.loader.efi.efiSysMountPoint = "/boot";
+  boot.loader.efi.canTouchEfiVariables = false;
 
-  networking.hostName = "nixos"; # Define your hostname
+  networking.hostName = "summercamp"; # Define your hostname.
+  # Pick only one of the below networking options.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
-  # Enable networking
-  networking.networkmanager.enable = true;
+  # Set your time zone.
+  time.timeZone = "Europe/Berlin";
 
-  # Set time zone
-  time.timeZone = "UTC";
+  # Select internationalisation properties.
+  i18n.defaultLocale = "de_DE.UTF-8";
 
-  # Basic packages
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "de_DE.UTF-8";
+    LC_IDENTIFICATION = "de_DE.UTF-8";
+    LC_MEASUREMENT = "de_DE.UTF-8";
+    LC_MONETARY = "de_DE.UTF-8";
+    LC_NAME = "de_DE.UTF-8";
+    LC_NUMERIC = "de_DE.UTF-8";
+    LC_PAPER = "de_DE.UTF-8";
+    LC_TELEPHONE = "de_DE.UTF-8";
+    LC_TIME = "de_DE.UTF-8";
+  };
+
+  # Configure console keymap
+  console.keyMap = "de-latin1-nodeadkeys";
+
+  users.users = {
+    sidney = {
+      initialPassword = "s1";
+      isNormalUser = true;
+      description = "Sidney Streith";
+      extraGroups = [ "networkmanager" "wheel" ];
+    };
+  };
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim
     git
   ];
 
-  # Enable OpenSSH
-  services.openssh.enable = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Create a user (customize username and password)
-  users.users.nixos = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
-    initialPassword = "changeme";
-  };
+  nixpkgs.config.allowUnfree = true;
 
-  system.stateVersion = "24.05"; # Adjust based on your version
+  system.stateVersion = "25.05";
 }
 EOF
 

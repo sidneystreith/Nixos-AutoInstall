@@ -2,7 +2,7 @@
   description = "Automated NixOS Server Installation";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11"; # Specify your desired NixOS version
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05"; # Specify your desired NixOS version
     disko.url = "github:nix-community/disko";         # Include disko for disk management
     disko.inputs.nixpkgs.follows = "nixpkgs";         # Ensure disko uses the same nixpkgs
   };
