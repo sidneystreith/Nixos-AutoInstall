@@ -8,7 +8,7 @@
   };
 
   outputs = { self, nixpkgs, disko, ... }: {
-    nixosConfigurations.my-server = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.summercamp = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux"; # Adjust for your server's architecture
       modules = [
         disko.nixosModules.disko # Include disko module

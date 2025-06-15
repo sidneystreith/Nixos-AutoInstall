@@ -12,7 +12,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Variables (customize these as needed)
-DISK="/dev/vda"
+DISK="/dev/sda"
 ROOT_LABEL="nixos"
 SWAP_LABEL="swap"
 BOOT_LABEL="boot"
