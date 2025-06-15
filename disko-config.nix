@@ -1,8 +1,8 @@
 {
   disko.devices = {
     disk = {
-      vda = {  # Use /dev/vda, not /dev/sda
-        device = "/dev/vda";
+      sda = {  # Use /dev/sda, not /dev/vda
+        device = "/dev/sda";
         type = "gpt";  # GPT partition table
         partitions = {
           ESP = {
@@ -15,7 +15,7 @@
             };
           };
           root = {
-            size = "100%";  # Use remaining space (19.5G)
+            size = "100%";  # Use remaining space
             content = {
               type = "filesystem";
               format = "ext4";
